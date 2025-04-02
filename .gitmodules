@@ -1,0 +1,3 @@
+[submodule "submodules/BRISKI"]
+	path = submodules/BRISKI
+	url = https://github.com/riadhbenabdelhamid/BRISKI.git
