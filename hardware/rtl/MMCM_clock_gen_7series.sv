@@ -63,7 +63,8 @@ module MMCM_clock_gen_7series #(
 
     localparam int Dval = 1;
     localparam real Mval =10.0;
-    localparam real Oval =5.0;
+    //localparam real Oval =3.5;
+    localparam real Oval =10.0;
 
 
     wire clkout0;
@@ -90,7 +91,7 @@ module MMCM_clock_gen_7series #(
         .CLKFBOUT_MULT_F      (Mval),
         .CLKFBOUT_PHASE       (0.000),
         .CLKFBOUT_USE_FINE_PS ("FALSE"),
-        .CLKOUT0_DIVIDE_F     (Oval*2),
+        .CLKOUT0_DIVIDE_F     (Oval),
         //.CLKOUT1_DIVIDE     (20.0), //50MHz
         .CLKOUT1_DIVIDE     (25.0), //40MHz
         //.CLKOUT1_DIVIDE     (40.0), //25MHz
