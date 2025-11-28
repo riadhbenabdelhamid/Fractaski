@@ -13,11 +13,10 @@ module fpga #(
 );
 
 
-  (* DONT_TOUCH = "true" *)logic proc_rst;
   logic [17:0] vga_global_addr;
   logic [7:0] vga_global_data;
 
-  logic clkout0;  // MMCM main generated clock
+  logic clkout0;//MMCM main generated clock
   logic clkout1;  // vga clock
   logic ibuf_reset;  // buffered external input reset
   logic sync_reset;  // synchronized reset
@@ -46,10 +45,10 @@ module fpga #(
   //=======================================================
   //=========      ASYNC RESET synchronizer    ===========
   //=======================================================
-  async_reset_synchronizer sync_reset_gen_inst (
+  async_reset_synchronizer#(1) sync_reset_gen_inst (
       .clk(clkout0),
       .async_reset(ibuf_reset_or_not_locked),
-      .sync_reset(proc_rst)
+      .sync_reset(sync_reset)
   );
 
   IBUF input_buf_async_reset (
@@ -68,7 +67,7 @@ module fpga #(
     ) cores_wrapper (
         .clk(clkout0),
         .clkvga(clkout1),
-        .reset(proc_rst),
+        .reset(sync_reset),
         .global_addr(vga_global_addr),
         .global_rd_data(vga_global_data)
     );
@@ -77,7 +76,7 @@ module fpga #(
   //=========      VGA controller               ===========
   //=======================================================
     always_ff @(posedge clkout1) begin
-	    if (proc_rst) begin
+	    if (sync_reset) begin
 		    VGA_HS <= 0;
 		    VGA_VS <= 0;
 		    VGA_R <= 0;
@@ -94,7 +93,7 @@ module fpga #(
 
     vga_controller vga_controller_inst (
         .clk(clkout1),
-        .reset(proc_rst),
+        .reset(sync_reset),
         .VRAM_data(vga_global_data),
         .VRAM_addr(vga_global_addr),
         .VGA_hsync(VGA_HS_TMP),

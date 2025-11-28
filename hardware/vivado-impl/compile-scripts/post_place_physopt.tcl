@@ -13,14 +13,16 @@ set TNS_SRCH_STR "TNS="
 if {$WNS < 0.000} {
     # add over constraining
     #set_clock_uncertainty 0.100 [get_clocks CLKOUT0]
-    set_clock_uncertainty 0.100 [get_clocks clkout0]
-    #set_clock_uncertainty 0.200 [get_clocks clkout0]
+    #set_clock_uncertainty 0.100 [get_clocks clkout0]
+    set_clock_uncertainty 0.150 [get_clocks clkout0]
     #set_clock_uncertainty 0.300 [get_clocks clkout0]
     set TNS [ exec grep $TNS_SRCH_STR vivado.log | tail -1 | sed -n -e "s/^.*$TNS_SRCH_STR//p" | cut -d\  -f 1]
     set TNS_ITER_PREV $TNS
 
     for {set i 0} {$i < $NLOOPS} {incr i} {
+        phys_opt_design -bram_enable_opt 
         phys_opt_design -slr_crossing_opt -retime
+        phys_opt_design -directive AddRetime
         set WNS [ exec grep $WNS_SRCH_STR vivado.log | tail -1 | sed -n -e "s/^.*$WNS_SRCH_STR//p" | cut -d\  -f 1]
         if {$WNS >= 0.000} {
             break

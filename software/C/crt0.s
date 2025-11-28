@@ -1,33 +1,28 @@
-    .section .data
     .section .text
     .globl _start
     .extern _stack_top
-    # Define stack size per thread (you can adjust as needed)
-    .equ STACK_SIZE, 128# 128 bytes per thread
+
+    # Per-thread stack size in bytes
+    .equ STACK_SIZE, 128     # 128 bytes per thread
 
 _start:
-    # Retrieve hardware thread ID (hartid) and store it in register a0
-    csrr a0, mhartid
+    # a0 := hartid
+    csrr    a0, mhartid
 
-    # Calculate stack pointer for this thread using shifts
-    la t0, _stack_top        # Load address of the top of the stack
+    # t0 := &_stack_top
+    la      t0, _stack_top
 
-    andi t2, a0, 0x3
-    andi t3, a0, 0x3
-    # Decompose STACK_SIZE (80) into 64 (2^6) and 16 (2^4)
-    # t2 = local hartid << 6 (hartid * 64)
-    slli t2, t2, 6 # hartid * 64
+    # Limit to 4 threads (NUM_THREADS = 4): local_hart = hartid & 0x3
+    andi    t1, a0, 0x3      # t1 := local_hart (uses valid RV32E temp)
 
-    # t3 = hartid << 6 (hartid * 64) The amount can be changed to build a different stack size
-    slli t3, t3, 6 #hartid * 64
+    # t2 := local_hart * STACK_SIZE = local_hart << 7  (since STACK_SIZE = 128)
+    slli    t2, t1, 7
 
-    # t2 = t2 + t3 (hartid * 64 + hartid * 64 = hartid * 128) 
-    add t2, t2, t3
+    # sp := _stack_top - t2
+    sub     sp, t0, t2
 
-    # Set the stack pointer for this thread
-    sub sp, t0, t2           # sp = _stack_top - (hartid * STACK_SIZE)
+    # Call main(hartid=a0)
+    jal     ra, main
 
-    # Call the main function with hartid as an argument
-    jal ra, main
 
 

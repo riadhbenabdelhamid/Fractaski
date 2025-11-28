@@ -35,6 +35,7 @@ if {$WNS < 0.000} {
     for {set i 0} {$i < $NLOOPS} {incr i} {
         #phys_opt_design -retime
         phys_opt_design -slr_crossing_opt -retime
+        phys_opt_design -directive AddRetime
         set WNS [ exec grep $WNS_SRCH_STR vivado.log | tail -1 | sed -n -e "s/^.*$WNS_SRCH_STR//p" | cut -d\  -f 1]
         if {$WNS >= 0.000} {
             break

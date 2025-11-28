@@ -16,6 +16,7 @@ all2: clean compile_link bingen objdump format
 compile_link_c:
 	mkdir -p $(RUN_DIR)
 	cd $(RUN_DIR) && riscv64-unknown-elf-gcc -flto -DNUM_THREADS=$(NUM_THREADS) -march=rv32ia -mabi=ilp32  -ffreestanding -nostdlib -O1 -o $(CPROG).elf -T ../C/sections.lds ../C/crt0.s ../C/$(CPROG).c -Wl,-Map,$(CPROG).map
+	#cd $(RUN_DIR) && riscv64-unknown-elf-gcc -flto -DNUM_THREADS=$(NUM_THREADS) -march=rv32e -mabi=ilp32e  -ffreestanding -nostdlib -O1 -o $(CPROG).elf -T ../C/sections.lds ../C/crt0.s ../C/$(CPROG).c -Wl,-Map,$(CPROG).map
 
 compile:
 	mkdir -p $(RUN_DIR)

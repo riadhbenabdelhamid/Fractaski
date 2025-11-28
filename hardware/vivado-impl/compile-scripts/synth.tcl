@@ -9,7 +9,7 @@ synth_design \
 	     -directive AreaOptimized_High \
 	     -retiming \
 	     -shreg_min_size 4 \
-	     -flatten_hierarchy none \
+	     -flatten_hierarchy rebuilt \
 	     -verilog_define MMCM_OUT_FREQ_MHZ=$MMCM_OUT_FREQ_MHZ \
 	     -verilog_define NUM_PIPE_STAGES=$NUM_PIPE_STAGES \
 	     -verilog_define NUM_THREADS=$NUM_THREADS \
@@ -18,13 +18,16 @@ synth_design \
 	     -verilog_define ENABLE_UNIFIED_BARREL_SHIFTER=$ENABLE_UNIFIED_BARREL_SHIFTER \
 	     -verilog_define SINGLE_PROGRAM=$SINGLE_PROGRAM \
 	     -verilog_define CORE_HARD_BARRIER=$CORE_HARD_BARRIER \
+	     -resource_sharing on \
 	     -verilog_define HEX_PROG=\"$HEX_PROG\"
+	     #-directive AreaOptimized_High \
 	     #-verilog_define BRAM_DATA_INSTR_FILE=\"$HEX_PROG\" 
 	     #-resource_sharing on \
              #-control_set_opt_threshold 12
 	     #-directive AreaOptimized_High \
 	     #-directive PerformanceOptimized \
 	     #-flatten_hierarchy rebuilt \
+	     #-directive PerformanceOptimized \
 
 
 #synth_design -top ${TOP_RTL} -part $FPGA_PART -directive AreaOptimized_High -retiming -shreg_min_size 5 -flatten_hierarchy full

@@ -47,12 +47,15 @@ int soft_mul(int a, int b, int shamt) {
     unsigned long long result = 0;
 
     // Multiply ua by ub bit‐by‐bit.
+    
     for (int i = 0; i < 32; i++) {
         if (ub & 1) {
             result += ((unsigned long long)ua << i);
         }
         ub >>= 1;
     }
+    
+    //result = ua * ub;
     // Since the operands are in Qint.frac, we must shift right by frac
     int fixed_result = (int)(result >> shamt);
     return sign < 0 ? -fixed_result : fixed_result;

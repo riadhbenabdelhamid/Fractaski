@@ -65,6 +65,7 @@ module MMCM_clock_gen_7series #(
     localparam real Mval =10.0;
     //localparam real Oval =3.5;
     localparam real Oval =10.0;
+    //localparam real Oval =20.0; //50 Mhz
 
 
     wire clkout0;
