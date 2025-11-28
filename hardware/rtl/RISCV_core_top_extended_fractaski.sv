@@ -135,11 +135,11 @@ module RISCV_core_top_extended_fractaski #(
       .o_dmem_write_enable(RVcore_wr_en),
       .i_dmem_read_data   (RVcore_rd_data),
       //DEBUG outputs
-      .regfile_wr_addr    (DEBUG_regfile_wr_addr),
-      .regfile_wr_data    (DEBUG_regfile_wr_data),
-      .regfile_wr_en      (DEBUG_regfile_wr_en),
-      .thread_index_wb    (DEBUG_thread_index_wb),
-      .thread_index_wrmem (DEBUG_thread_index_wrmem)
+      .debug_regfile_wr_addr    (DEBUG_regfile_wr_addr),
+      .debug_regfile_wr_data    (DEBUG_regfile_wr_data),
+      .debug_regfile_wr_en      (DEBUG_regfile_wr_en),
+      .debug_thread_index_wb    (DEBUG_thread_index_wb),
+      .debug_thread_index_wrmem (DEBUG_thread_index_wrmem)
   );
 
   //================================================================================================================--

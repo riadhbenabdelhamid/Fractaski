@@ -5,6 +5,7 @@ module fpga #(
 ) (
     input logic switch,
     input  logic clk,
+    output logic res_status,
     output logic VGA_HS,
     output logic VGA_VS,
     output logic [3:0] VGA_R,
@@ -45,11 +46,13 @@ module fpga #(
   //=======================================================
   //=========      ASYNC RESET synchronizer    ===========
   //=======================================================
-  async_reset_synchronizer#(1) sync_reset_gen_inst (
+  async_reset_synchronizer#(0) sync_reset_gen_inst (
       .clk(clkout0),
       .async_reset(ibuf_reset_or_not_locked),
       .sync_reset(sync_reset)
   );
+
+  assign res_status = sync_reset;
 
   IBUF input_buf_async_reset (
       .O(ibuf_reset),
